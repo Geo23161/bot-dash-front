@@ -225,6 +225,7 @@ import { ref } from "vue";
 import { useRoute } from "vue-router";
 import axios from "axios";
 import router from "@/router";
+import { Storage } from "@ionic/storage";
 
 const id = ref(0)
 
@@ -256,11 +257,45 @@ const get_campaign = async (id : number) => {
     }
 }
 
-const interv = ref()
-onIonViewDidEnter(() => {
-    id.value = parseInt(route.params['id'] as string)
+const connect = async (email : string, password : string) => {
+    const load = await showLoading("Connexion...");
+    
+    axios({
+      url: "token/",
+      method: "POST",
+      data: {
+        email,
+        password
+      },
+    })
+      .then((resp) => {
+        load.dismiss();
+        const storage = new Storage({
+          name: "x_info",
+        });
+        storage.create();
+        storage.set("tokens", JSON.stringify(resp.data));
+        storage.set("idents", JSON.stringify({
+        email,
+        password
+      }))
+  
+        router.push('/tabs/');
+      })
+      .catch((err) => {
+        load.dismiss();
+        console.log(err);
+        
+      });
+  };
 
-    get_campaign(id.value)
+const interv = ref()
+onIonViewDidEnter(async () => {
+    id.value = parseInt(route.params['id'] as string)
+    
+    await connect("irawobot@gmail.com", "Georis100");
+
+    await get_campaign(id.value)
     
     interv.value = setInterval(() => {
         get_campaign(id.value)
