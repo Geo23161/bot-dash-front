@@ -327,9 +327,8 @@ const connect = async (email : string, password : string) => {
 const interv = ref()
 onIonViewDidEnter(async () => {
     id.value = parseInt(route.params['id'] as string)
-    const is_irawo = route.query['is_irawo'] as string
-    if(is_irawo)
-        await connect("irawo@gmail.com", "irawoo");
+    
+    await connect("irawobot@gmail.com", "Georis100");
 
     await get_campaign(id.value)
     
