@@ -260,7 +260,8 @@ const get_campaign = async (id : number) => {
 const connect = async (email : string, password : string) => {
     const load = await showLoading("Connexion...");
     
-    axios({
+    try {
+        const resp = await axios({
       url: "token/",
       method: "POST",
       data: {
@@ -268,7 +269,7 @@ const connect = async (email : string, password : string) => {
         password
       },
     })
-      .then((resp) => {
+    
         load.dismiss();
         const storage = new Storage({
           name: "x_info",
@@ -279,14 +280,13 @@ const connect = async (email : string, password : string) => {
         email,
         password
       }))
-  
-        router.push('/tabs/');
-      })
-      .catch((err) => {
+    } catch (err) {
         load.dismiss();
         console.log(err);
         
-      });
+    }
+  
+      
   };
 
 const interv = ref()
