@@ -25,8 +25,8 @@ import axios from "axios"
 import './theme/variables.css';
 
 //const base = "http://192.168.43.244:8080/"
-const base = "http://localhost:8080/"
-//const base = "https://business.statusmax.site/"
+// const base = "http://localhost:8080/"
+const base = "https://irawo-bot.onrender.com/"
 
 axios.defaults.baseURL = base
 
